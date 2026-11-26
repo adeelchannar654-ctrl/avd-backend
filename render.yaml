@@ -1,0 +1,17 @@
+# Render deploy for the AVD backend (free tier, to prove it works).
+# No card needed. Free services sleep after 15 min idle and take ~1 min to
+# wake — acceptable for a proof; the PO-token provider sleeps with the
+# container and wakes with it, so the first download after quiet pays ~1 min.
+services:
+  - type: web
+    name: avd-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: COOKIES_FILE_CONTENT
+        sync: false
+      - key: BACKEND_KEY
+        generateValue: true
